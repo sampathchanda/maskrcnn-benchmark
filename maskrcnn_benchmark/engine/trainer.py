@@ -39,6 +39,7 @@ def reduce_loss_dict(loss_dict):
 def do_train(
     model,
     data_loader,
+    val_data_loader,
     optimizer,
     scheduler,
     checkpointer,

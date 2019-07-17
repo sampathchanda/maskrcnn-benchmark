@@ -28,7 +28,7 @@ def main():
     parser = argparse.ArgumentParser(description="PyTorch Object Detection Inference")
     parser.add_argument(
         "--config-file",
-        default="/private/home/fmassa/github/detectron.pytorch_v2/configs/e2e_faster_rcnn_R_50_C4_1x_caffe2.yaml",
+        default="../configs/e2e_keypoint_rcnn_R_50_FPN_1x.yaml",
         metavar="FILE",
         help="path to config file",
     )
@@ -36,7 +36,7 @@ def main():
     parser.add_argument(
         "--ckpt",
         help="The path to the checkpoint for test, default is the latest checkpoint.",
-        default=None,
+        default="/home/ubuntu/work/GitHub_pub/maskrcnn-benchmark/tools/model_final.pth",
     )
     parser.add_argument(
         "opts",
@@ -95,7 +95,7 @@ def main():
             output_folders[idx] = output_folder
     data_loaders_val = make_data_loader(cfg, is_train=False, is_distributed=distributed)
     for output_folder, dataset_name, data_loader_val in zip(output_folders, dataset_names, data_loaders_val):
-        inference(
+        res = inference(
             model,
             data_loader_val,
             dataset_name=dataset_name,
@@ -107,6 +107,7 @@ def main():
             output_folder=output_folder,
         )
         synchronize()
+        print("Eval result for {} dataset: {}".format(dataset_name, res))
 
 
 if __name__ == "__main__":
