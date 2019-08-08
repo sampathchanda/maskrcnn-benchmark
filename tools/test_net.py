@@ -28,7 +28,7 @@ def main():
     parser = argparse.ArgumentParser(description="PyTorch Object Detection Inference")
     parser.add_argument(
         "--config-file",
-        default="../configs/e2e_keypoint_rcnn_R_50_FPN_1x.yaml",
+        default="../configs/e2e_keypoint_80C_rcnn_R_50_FPN_1x.yaml",
         metavar="FILE",
         help="path to config file",
     )

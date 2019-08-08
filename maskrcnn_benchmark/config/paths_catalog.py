@@ -5,7 +5,8 @@ import os
 
 
 class DatasetCatalog(object):
-    DATA_DIR = "/data/datasets/ObjectDetection/COCO/maskrcnn"
+    # DATA_DIR = "/data/datasets/ObjectDetection/COCO/maskrcnn"
+    DATA_DIR = "/data/datasets/ObjectDetection/MISC/paths/maskrcnn-benchmark"
     DATASETS = {
         "coco_2017_train": {
             "img_dir": "coco/train2017",

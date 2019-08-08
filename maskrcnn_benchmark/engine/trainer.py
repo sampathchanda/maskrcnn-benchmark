@@ -39,7 +39,6 @@ def reduce_loss_dict(loss_dict):
 def do_train(
     model,
     data_loader,
-    val_data_loader,
     optimizer,
     scheduler,
     checkpointer,
@@ -64,7 +63,7 @@ def do_train(
         iteration = iteration + 1
         arguments["iteration"] = iteration
 
-        scheduler.step()
+        # scheduler.step()
 
         images = images.to(device)
         targets = [target.to(device) for target in targets]
@@ -84,6 +83,8 @@ def do_train(
         with amp.scale_loss(losses, optimizer) as scaled_losses:
             scaled_losses.backward()
         optimizer.step()
+
+        scheduler.step()  # CSAMPAT -- For PyTorch 1.1 and above, lr_scheduler should be stepped after optimizer
 
         batch_time = time.time() - end
         end = time.time()

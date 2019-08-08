@@ -72,18 +72,11 @@ def train(cfg, local_rank, distributed):
         start_iter=arguments["iteration"],
     )
 
-    val_data_loader = make_data_loader(
-        cfg,
-        is_train=False,
-        is_distributed=distributed
-    )
-
     checkpoint_period = cfg.SOLVER.CHECKPOINT_PERIOD
 
     do_train(
         model,
         data_loader,
-        val_data_loader,
         optimizer,
         scheduler,
         checkpointer,
@@ -131,7 +124,8 @@ def main():
     parser = argparse.ArgumentParser(description="PyTorch Object Detection Training")
     parser.add_argument(
         "--config-file",
-        default="../configs/e2e_keypoint_rcnn_R_50_FPN_1x.yaml",
+        # default="../configs/e2e_keypoint_rcnn_R_50_FPN_1x.yaml",
+        default="../configs/e2e_keypoint_80C_rcnn_R_50_FPN_1x.yaml",
         metavar="FILE",
         help="path to config file",
         type=str,
@@ -152,7 +146,11 @@ def main():
 
     args = parser.parse_args()
 
+    # Custom args
+    # args.skip_test = False
+
     num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
+    assert cfg.TEST.IMS_PER_BATCH % int(os.environ['NGPUS']) == 0, "Number of images per batch per GPU is not an int"
     args.distributed = num_gpus > 1
 
     if args.distributed:
